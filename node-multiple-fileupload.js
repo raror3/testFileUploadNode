@@ -12,7 +12,10 @@ var regex = /\.txt$/;
  */
 function read(fileName) {
     fileSystemModule.readFile(fileName, function (err, data) {
-        if (err) { throw err }
+        if (err) {
+            console.log("Error reading file", err)
+            throw err
+        }
 
         s3.putObject({
             'Bucket': bucketName,
@@ -39,8 +42,8 @@ fileSystemModule.readdir(".", function (err, files) {
     var numFiles = matchedFileName.length
 
     if (numFiles) {
-        for (i = 0; i < numFiles; i++) {
-            read(matchedFileName[i])
+        for(matchedFile in matchedFileName) {
+            read(matchedFileName[matchedFile]);
         }
     }
 });
